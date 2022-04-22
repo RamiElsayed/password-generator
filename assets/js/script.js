@@ -1,10 +1,10 @@
 // Assignment Code
-var generateBtn = document.querySelector("#generate");
-let lowerCase = "abcdefghijklmnopqrstuvwxyz";
-let upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let specialChar = " !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~";
-let numbers = "0123456789";
-let criterias = [];
+const generateBtn = document.querySelector("#generate");
+const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const specialChar = " !\"#$%&'()*+,-./:;<=>?@[]^_`{|}~";
+const numbers = "0123456789";
+
 
 const getPasswordLength = () => {
   let input = prompt(
@@ -22,29 +22,30 @@ const getPasswordLength = () => {
   }
 };
 const getPasswordCriteria = () => {
-  let criteria = "y";
+  let criterias = [];
+  let choice = "y";
   let firstCriteria = prompt("Would you like lower case charachters ? Y/N")
     .toString()
     .toLowerCase();
-  if (firstCriteria === criteria) {
+  if (firstCriteria === choice) {
     criterias.push(lowerCase);
   }
   let secondCriteria = prompt("Would you like upper case charachters ? Y/N")
     .toString()
     .toLowerCase();
-  if (secondCriteria === criteria) {
+  if (secondCriteria === choice) {
     criterias.push(upperCase);
   }
   let thirdCriteria = prompt("Would you like special charachters ? Y/N")
     .toString()
     .toLowerCase();
-  if (thirdCriteria === criteria) {
+  if (thirdCriteria === choice) {
     criterias.push(specialChar);
   }
   let forthCriteria = prompt("Would you like numbers ? Y/N")
     .toString()
     .toLowerCase();
-  if (forthCriteria === criteria) {
+  if (forthCriteria === choice) {
     criterias.push(numbers);
   } else if (criterias.length < 1) {
     alert(
@@ -54,18 +55,28 @@ const getPasswordCriteria = () => {
   }
   confirm("Your password will be a random combination of " + criterias);
   return criterias;
+
 };
 
-let result = "";
-const createRandomPassword = (passwordLength, criterias) => {
-  
-  for(let i = 0; i < passwordLength; i++) {
 
-    let criteriaLength = criterias[i].length
-    result.concat(criterias[i].charAt(Math.floor(Math.random() * criteriaLength)));
-  
+const createRandomPassword = (passwordLength, passwordCriteria) => {
+  let result = [];
+  for (let index = 0; index < passwordCriteria.length; index++) {
+    const criteria = passwordCriteria[index];
+    const randomChar = Math.round(Math.random() * (criteria.length - 1));
+    const char = criteria[randomChar];
+    result.push(char)
   }
-  return result;
+
+  for(let i = passwordCriteria.length; i < passwordLength; i++) {
+    const randomCriteria = Math.round(Math.random() * (passwordCriteria.length - 1))
+    const criteria = passwordCriteria[randomCriteria];
+    const randomChar = Math.round(Math.random() * (criteria.length - 1));
+    const char = criteria[randomChar];
+    result.push(char)
+
+  }
+  return result.join("");
 };
 
 //main function to generate the password
